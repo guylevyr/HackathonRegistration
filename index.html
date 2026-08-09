@@ -196,7 +196,6 @@
       <p class="hint" style="margin:-8px 0 14px;">Add up to 5 members — your team will total up to 6 people, including you as leader.</p>
       <div id="membersWrap"></div>
       <button type="button" class="add-btn" id="addMemberBtn">+ Add member</button>
-      <div class="roster-msg" id="rosterMsg"></div>
 
       <div class="section-title">Your idea</div>
       <div class="field">
@@ -263,7 +262,6 @@ const auth = firebase.auth();
 
 let memberCount = 0;
 const membersWrap = document.getElementById('membersWrap');
-const rosterMsg = document.getElementById('rosterMsg');
 const addMemberBtn = document.getElementById('addMemberBtn');
 
 function addMemberRow(){
@@ -279,26 +277,14 @@ function addMemberRow(){
   row.querySelector('.icon-btn').addEventListener('click', () => {
     row.remove();
     memberCount--;
-    updateRosterMsg();
     updateAddBtn();
   });
   membersWrap.appendChild(row);
-  updateRosterMsg();
   updateAddBtn();
 }
 
 function updateAddBtn(){
   addMemberBtn.disabled = memberCount >= CONFIG.memberMax;
-}
-
-function updateRosterMsg(){
-  if(memberCount < CONFIG.memberMin){
-    rosterMsg.textContent = `Add at least ${CONFIG.memberMin} members (${memberCount} added).`;
-    rosterMsg.className = 'roster-msg';
-  } else {
-    rosterMsg.textContent = `${memberCount} members added.`;
-    rosterMsg.className = 'roster-msg ok';
-  }
 }
 
 for(let i=0;i<CONFIG.memberMin;i++) addMemberRow();

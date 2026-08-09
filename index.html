@@ -6,29 +6,6 @@
 <title>Team Registration</title>
 
 <!-- Firebase (compat SDKs — no build step needed) -->
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBwPOEu_nfqyqmvpk0JnJ87YJPT3P7UXXk",
-    authDomain: "hackathonregistration-22c12.firebaseapp.com",
-    projectId: "hackathonregistration-22c12",
-    storageBucket: "hackathonregistration-22c12.firebasestorage.app",
-    messagingSenderId: "768583190259",
-    appId: "1:768583190259:web:813bda71674da82a34d986",
-    measurementId: "G-EHJGKJDVMX"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -273,12 +250,12 @@ const CONFIG = {
    Replace the values below with your own project's config,
    found in Firebase Console → Project settings → General → Your apps → SDK setup. */
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBwPOEu_nfqyqmvpk0JnJ87YJPT3P7UXXk",
+  authDomain: "hackathonregistration-22c12.firebaseapp.com",
+  projectId: "hackathonregistration-22c12",
+  storageBucket: "hackathonregistration-22c12.firebasestorage.app",
+  messagingSenderId: "768583190259",
+  appId: "1:768583190259:web:813bda71674da82a34d986"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();

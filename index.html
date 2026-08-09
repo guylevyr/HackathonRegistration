@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Team Registration</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#FFFFFF;
+    --bg-alt:#F7F7F5;
+    --ink:#1A1A1A;
+    --muted:#6B6B6B;
+    --line:#E5E3DD;
+    --accent:#4F46E5;
+    --accent-ink:#4338CA;
+    --accent-bg:#EEF2FF;
+    --coral:#F0654A;
+    --coral-bg:#FEF0EC;
+    --green:#15803D;
+    --green-bg:#F0FDF4;
+    --red:#DC2626;
+    --red-bg:#FEF2F2;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+  }
+  h1,h2{font-weight:700; margin:0; letter-spacing:-0.01em;}
+  a{color:var(--accent);}
+
+  .wrap{max-width:600px; margin:0 auto; padding:0 24px; position:relative;}
+
+  header{padding:76px 0 44px; text-align:center; position:relative;}
+  header::before{
+    content:''; position:absolute; top:-40px; left:50%; transform:translateX(-50%);
+    width:340px; height:220px; pointer-events:none;
+    background:radial-gradient(closest-side, var(--accent-bg), transparent 70%);
+    opacity:.9; z-index:-1;
+  }
+  header .eyebrow{
+    display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:var(--accent-ink);
+    text-transform:uppercase; letter-spacing:.08em; margin-bottom:16px; background:var(--accent-bg);
+    padding:6px 14px; border-radius:100px;
+  }
+  header .eyebrow::before{content:''; width:6px; height:6px; border-radius:50%; background:var(--coral); flex:0 0 auto;}
+  header h1{font-family:'Fraunces',serif; font-weight:600; font-size:42px; letter-spacing:-0.015em;}
+  header p{color:var(--muted); font-size:16px; margin-top:12px; max-width:420px; margin-left:auto; margin-right:auto;}
+
+  .card{
+    background:var(--bg); border:1px solid var(--line); border-radius:16px; padding:36px;
+    margin-bottom:60px; box-shadow:0 1px 2px rgba(20,20,20,.03), 0 12px 32px -20px rgba(20,20,20,.12);
+  }
+
+  .field{margin-bottom:20px;}
+  .field label{display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px;}
+  .field .hint{font-size:12px; color:var(--muted); margin-top:5px;}
+  .field .err{font-size:12px; color:var(--red); margin-top:5px; display:none;}
+  .field.invalid input, .field.invalid textarea{border-color:var(--red);}
+  .field.invalid .err{display:block;}
+
+  input[type=text], input[type=tel], textarea, select{
+    width:100%; background:var(--bg-alt); border:1px solid var(--line); color:var(--ink);
+    border-radius:9px; padding:11px 13px; font-family:'Inter',sans-serif; font-size:15px;
+    outline:none; transition:border-color .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  input::placeholder, textarea::placeholder{color:#A3A29B;}
+  input:focus, textarea:focus, select:focus{
+    border-color:var(--accent); background:#fff; box-shadow:0 0 0 4px var(--accent-bg);
+  }
+  textarea{resize:vertical; min-height:90px;}
+
+  .section-title{
+    display:flex; align-items:center; gap:9px; font-family:'Fraunces',serif; font-weight:600;
+    font-size:19px; margin:36px 0 18px; padding-top:28px; border-top:1px solid var(--line);
+  }
+  .section-title::before{content:''; width:7px; height:7px; border-radius:2px; background:var(--coral); flex:0 0 auto;}
+  .card .section-title:first-of-type{margin-top:0; padding-top:0; border-top:none;}
+
+  .member-row{display:flex; gap:8px; margin-bottom:10px;}
+  .member-row input{flex:1;}
+  .icon-btn{
+    width:40px; height:40px; flex:0 0 auto; border-radius:9px; border:1px solid var(--line); background:var(--bg-alt);
+    color:var(--muted); cursor:pointer; font-size:16px; transition:border-color .12s ease, color .12s ease;
+  }
+  .icon-btn:hover{border-color:var(--red); color:var(--red); background:var(--red-bg);}
+
+  .add-btn{
+    font-size:14px; background:transparent; border:1px dashed #C7C9F5; color:var(--accent);
+    padding:10px 14px; border-radius:9px; cursor:pointer; width:100%; margin-top:2px; font-weight:500;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .add-btn:hover{border-color:var(--accent); background:var(--accent-bg);}
+  .add-btn:disabled{opacity:.4; cursor:not-allowed; color:var(--muted); border-color:var(--line); background:transparent;}
+
+  .roster-msg{font-size:13px; color:var(--muted); margin-top:8px;}
+  .roster-msg.ok{color:var(--green);}
+
+  .submit-row{margin-top:30px;}
+  .btn{
+    font-size:15px; font-weight:600; padding:13px 22px; border-radius:9px;
+    border:1px solid transparent; cursor:pointer; width:100%;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .btn-primary{background:var(--accent); color:#fff; box-shadow:0 1px 2px rgba(79,70,229,.15), 0 8px 18px -10px rgba(79,70,229,.55);}
+  .btn-primary:hover{background:var(--accent-ink); transform:translateY(-1px); box-shadow:0 2px 4px rgba(79,70,229,.2), 0 14px 24px -12px rgba(79,70,229,.6);}
+  .btn-primary:active{transform:translateY(0);}
+  .btn-primary:disabled{opacity:.6; cursor:not-allowed; transform:none; box-shadow:none;}
+
+  .form-status{font-size:13px; margin-top:12px; text-align:center; display:none; padding:10px; border-radius:8px;}
+  .form-status.show{display:block;}
+  .form-status.err{background:var(--red-bg); color:var(--red);}
+
+  .success{
+    background:var(--bg); border:1px solid var(--line); border-radius:16px; padding:40px 32px; text-align:center;
+    margin-bottom:60px; box-shadow:0 1px 2px rgba(20,20,20,.03), 0 12px 32px -20px rgba(20,20,20,.12);
+  }
+  .success .check{
+    width:48px; height:48px; border-radius:50%; background:var(--green-bg); color:var(--green);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 18px; font-size:22px;
+  }
+  .success h2{font-family:'Fraunces',serif; font-size:24px; color:var(--ink); margin-bottom:8px;}
+  .success p{color:var(--muted); font-size:14px; margin:4px 0;}
+  .success .id{
+    display:inline-block; font-weight:600; color:var(--accent-ink); font-size:15px; margin:16px 0;
+    background:var(--accent-bg); padding:8px 16px; border-radius:100px;
+  }
+  .success button{margin-top:10px; width:auto;}
+
+  footer{padding:0 0 50px; text-align:center;}
+  .admin-link{
+    background:none; border:none; color:var(--muted); font-size:12px; cursor:pointer;
+    text-decoration:underline; text-underline-offset:3px;
+  }
+  .admin-link:hover{color:var(--accent);}
+  .admin-gate{max-width:320px; margin:16px auto 0; display:none;}
+  .admin-gate.show{display:block;}
+  .admin-gate input{margin-bottom:10px;}
+  .admin-gate .btn{width:auto; padding:11px 20px;}
+
+  .admin-panel{display:none;}
+  .admin-panel.show{display:block;}
+  .team-row{
+    border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:10px; text-align:left;
+    background:var(--bg-alt);
+  }
+  .team-row .tname{font-weight:600; font-size:14px;}
+  .team-row .tname span{color:var(--muted); font-weight:400;}
+  .team-row .tmeta{font-size:12px; color:var(--muted); margin-top:4px;}
+  .team-row .tidea{font-size:13px; color:var(--muted); margin-top:6px;}
+  .empty-state{font-size:13px; color:var(--muted); text-align:center; padding:24px 0;}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <h1>Register your team</h1>
+  <p>Fill in your team details and idea below.</p>
+</header>
+
+<div class="wrap">
+  <div class="card" id="formCard">
+    <form id="regForm" novalidate>
+
+      <div class="field">
+        <label for="teamName">Team name</label>
+        <input type="text" id="teamName" placeholder="Null Pointers">
+        <div class="err">Enter a team name.</div>
+      </div>
+
+      <div class="field">
+        <label for="leadName">Team leader name</label>
+        <input type="text" id="leadName" placeholder="Alex Rivera">
+        <div class="err">Enter the team leader's name.</div>
+      </div>
+
+      <div class="field">
+        <label for="leadPhone">Team leader phone number</label>
+        <input type="tel" id="leadPhone" placeholder="0501234567" inputmode="numeric" maxlength="10">
+        <div class="hint">10 digits, numbers only.</div>
+        <div class="err">Enter a valid 10-digit phone number.</div>
+      </div>
+
+      <div class="section-title">Team members (5–6)</div>
+      <div id="membersWrap"></div>
+      <button type="button" class="add-btn" id="addMemberBtn">+ Add member</button>
+      <div class="roster-msg" id="rosterMsg"></div>
+
+      <div class="section-title">Your idea</div>
+      <div class="field">
+        <label for="ideaTitle">Idea title</label>
+        <input type="text" id="ideaTitle" placeholder="A project name">
+        <div class="err">Enter your idea's title.</div>
+      </div>
+      <div class="field">
+        <label for="ideaDesc">Description</label>
+        <textarea id="ideaDesc" placeholder="What are you building and why does it matter?"></textarea>
+        <div class="err">Enter a short description.</div>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="btn btn-primary" id="submitBtn">Register team</button>
+        <div class="form-status" id="formStatus"></div>
+      </div>
+    </form>
+  </div>
+
+  <div class="success" id="successCard" style="display:none;">
+    <div class="check">✓</div>
+    <h2>Team registered</h2>
+    <p id="successTeamName"></p>
+    <p class="id" id="successId"></p>
+    <p>Save this ID as your registration reference.</p>
+    <button class="btn btn-primary" id="registerAnother" style="width:auto; padding:11px 20px;">Register another team</button>
+  </div>
+
+  <footer>
+    <button class="admin-link" id="adminLinkBtn">Organizer access</button>
+    <div class="admin-gate" id="adminGate">
+      <input type="text" id="adminPin" placeholder="Enter passcode">
+      <button class="btn btn-primary" id="adminSubmit" style="width:100%;">View registrations</button>
+      <div class="form-status err show" id="adminError" style="display:none;">Incorrect passcode.</div>
+    </div>
+    <div class="admin-panel" id="adminPanel">
+      <div class="section-title" style="border-top:none; text-align:left; max-width:600px; margin:24px auto 14px;">Registered teams (<span id="teamCount">0</span>)</div>
+      <div id="teamList"></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+const CONFIG = {
+  memberMin: 5,
+  memberMax: 6,
+  adminPasscode: '2026' /* change this to your own passcode */
+};
+
+let memberCount = 0;
+const membersWrap = document.getElementById('membersWrap');
+const rosterMsg = document.getElementById('rosterMsg');
+const addMemberBtn = document.getElementById('addMemberBtn');
+
+function addMemberRow(){
+  if(memberCount >= CONFIG.memberMax) return;
+  memberCount++;
+  const idx = memberCount;
+  const row = document.createElement('div');
+  row.className = 'member-row';
+  row.innerHTML = `
+    <input type="text" class="mName" placeholder="Member ${idx} name">
+    <button type="button" class="icon-btn" title="Remove member">✕</button>
+  `;
+  row.querySelector('.icon-btn').addEventListener('click', () => {
+    row.remove();
+    memberCount--;
+    updateRosterMsg();
+    updateAddBtn();
+  });
+  membersWrap.appendChild(row);
+  updateRosterMsg();
+  updateAddBtn();
+}
+
+function updateAddBtn(){
+  addMemberBtn.disabled = memberCount >= CONFIG.memberMax;
+}
+
+function updateRosterMsg(){
+  if(memberCount < CONFIG.memberMin){
+    rosterMsg.textContent = `Add at least ${CONFIG.memberMin} members (${memberCount} added).`;
+    rosterMsg.className = 'roster-msg';
+  } else {
+    rosterMsg.textContent = `${memberCount} members added.`;
+    rosterMsg.className = 'roster-msg ok';
+  }
+}
+
+for(let i=0;i<CONFIG.memberMin;i++) addMemberRow();
+addMemberBtn.addEventListener('click', addMemberRow);
+
+function getMembers(){
+  return Array.from(membersWrap.querySelectorAll('.mName')).map(inp => inp.value.trim());
+}
+
+function setInvalid(fieldEl, invalid){
+  fieldEl.classList.toggle('invalid', invalid);
+}
+
+function genTeamId(){
+  return Array.from({length:6}, () => '0123456789abcdef'[Math.floor(Math.random()*16)]).join('');
+}
+
+document.getElementById('leadPhone').addEventListener('input', (e) => {
+  e.target.value = e.target.value.replace(/\D/g, '').slice(0,10);
+});
+
+const form = document.getElementById('regForm');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const teamNameEl = document.getElementById('teamName');
+  const leadNameEl = document.getElementById('leadName');
+  const leadPhoneEl = document.getElementById('leadPhone');
+  const ideaTitleEl = document.getElementById('ideaTitle');
+  const ideaDescEl = document.getElementById('ideaDesc');
+
+  const teamName = teamNameEl.value.trim();
+  const leadName = leadNameEl.value.trim();
+  const leadPhone = leadPhoneEl.value.trim();
+  const members = getMembers();
+  const ideaTitle = ideaTitleEl.value.trim();
+  const ideaDesc = ideaDescEl.value.trim();
+
+  let valid = true;
+  setInvalid(teamNameEl.closest('.field'), !teamName); if(!teamName) valid = false;
+  setInvalid(leadNameEl.closest('.field'), !leadName); if(!leadName) valid = false;
+  const phoneOk = /^\d{10}$/.test(leadPhone);
+  setInvalid(leadPhoneEl.closest('.field'), !phoneOk); if(!phoneOk) valid = false;
+  setInvalid(ideaTitleEl.closest('.field'), !ideaTitle); if(!ideaTitle) valid = false;
+  setInvalid(ideaDescEl.closest('.field'), !ideaDesc); if(!ideaDesc) valid = false;
+
+  formStatus.className = 'form-status';
+  if(members.length < CONFIG.memberMin || members.some(m => !m)){
+    formStatus.textContent = `Add at least ${CONFIG.memberMin} team members with names filled in.`;
+    formStatus.className = 'form-status err show';
+    valid = false;
+  }
+
+  if(!valid){
+    if(!formStatus.classList.contains('show')){
+      formStatus.textContent = 'Please fill in all required fields.';
+      formStatus.className = 'form-status err show';
+    }
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Registering...';
+
+  const id = genTeamId();
+  const payload = {
+    id, teamName, leadName, leadPhone, members,
+    ideaTitle, ideaDesc,
+    registeredAt: new Date().toISOString()
+  };
+
+  try{
+    const result = await window.storage.set('team:' + id, JSON.stringify(payload), true);
+    if(!result) throw new Error('storage returned null');
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('successCard').style.display = 'block';
+    document.getElementById('successTeamName').textContent = `${teamName} — ${members.length + 1} people`;
+    document.getElementById('successId').textContent = '#' + id;
+  }catch(err){
+    formStatus.textContent = 'Could not save your registration. Please try again.';
+    formStatus.className = 'form-status err show';
+  }finally{
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Register team';
+  }
+});
+
+document.getElementById('registerAnother').addEventListener('click', () => {
+  form.reset();
+  document.querySelectorAll('.field.invalid').forEach(f => f.classList.remove('invalid'));
+  membersWrap.innerHTML = '';
+  memberCount = 0;
+  for(let i=0;i<CONFIG.memberMin;i++) addMemberRow();
+  document.getElementById('successCard').style.display = 'none';
+  document.getElementById('formCard').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+/* ---- organizer-only view, gated by passcode ---- */
+const adminLinkBtn = document.getElementById('adminLinkBtn');
+const adminGate = document.getElementById('adminGate');
+const adminPanel = document.getElementById('adminPanel');
+const adminError = document.getElementById('adminError');
+
+adminLinkBtn.addEventListener('click', () => {
+  adminGate.classList.toggle('show');
+});
+
+document.getElementById('adminSubmit').addEventListener('click', async () => {
+  const pin = document.getElementById('adminPin').value.trim();
+  if(pin !== CONFIG.adminPasscode){
+    adminError.style.display = 'block';
+    return;
+  }
+  adminError.style.display = 'none';
+  adminGate.classList.remove('show');
+  adminLinkBtn.style.display = 'none';
+  adminPanel.classList.add('show');
+  await loadTeams();
+});
+
+async function loadTeams(){
+  const teamList = document.getElementById('teamList');
+  teamList.innerHTML = '<div class="empty-state">Loading...</div>';
+  try{
+    const list = await window.storage.list('team:', true);
+    const keys = list && list.keys ? list.keys : [];
+    document.getElementById('teamCount').textContent = keys.length;
+    if(keys.length === 0){
+      teamList.innerHTML = '<div class="empty-state">No teams registered yet.</div>';
+      return;
+    }
+    const teams = [];
+    for(const k of keys){
+      try{
+        const res = await window.storage.get(k, true);
+        if(res && res.value) teams.push(JSON.parse(res.value));
+      }catch(e){}
+    }
+    teams.sort((a,b) => new Date(b.registeredAt) - new Date(a.registeredAt));
+    teamList.innerHTML = teams.map(t => `
+      <div class="team-row">
+        <div class="tname">${escapeHtml(t.teamName)} <span style="color:var(--muted); font-weight:400;">#${t.id}</span></div>
+        <div class="tmeta">Leader: ${escapeHtml(t.leadName)} · ${escapeHtml(t.leadPhone)} · ${t.members.length + 1} people</div>
+        <div class="tidea">${escapeHtml(t.ideaTitle)} — ${escapeHtml(t.ideaDesc)}</div>
+      </div>
+    `).join('');
+  }catch(e){
+    teamList.innerHTML = '<div class="empty-state">Could not load registrations.</div>';
+  }
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+</script>
+
+</body>
+</html>

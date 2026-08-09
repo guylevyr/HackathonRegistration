@@ -175,13 +175,13 @@
 
       <div class="field">
         <label for="teamName">Team name</label>
-        <input type="text" id="teamName" placeholder="Null Pointers">
+        <input type="text" id="teamName" placeholder="Royale with Cheese">
         <div class="err">Enter a team name.</div>
       </div>
 
       <div class="field">
         <label for="leadName">Team leader name</label>
-        <input type="text" id="leadName" placeholder="Alex Rivera">
+        <input type="text" id="leadName" placeholder="Marsellus Wallace">
         <div class="err">Enter the team leader's name.</div>
       </div>
 
@@ -200,12 +200,12 @@
       <div class="section-title">Your idea</div>
       <div class="field">
         <label for="ideaTitle">Idea title</label>
-        <input type="text" id="ideaTitle" placeholder="A project name">
+        <input type="text" id="ideaTitle" placeholder="Big Kahuna">
         <div class="err">Enter your idea's title.</div>
       </div>
       <div class="field">
         <label for="ideaDesc">Description</label>
-        <textarea id="ideaDesc" placeholder="What are you building and why does it matter?"></textarea>
+        <textarea id="ideaDesc" placeholder="They call it Royale with cheese"></textarea>
         <div class="err">Enter a short description.</div>
       </div>
 
@@ -264,6 +264,8 @@ let memberCount = 0;
 const membersWrap = document.getElementById('membersWrap');
 const addMemberBtn = document.getElementById('addMemberBtn');
 
+const memberNames = ['Mia Wallace', 'The Wolf', 'Zed', 'Butch', 'Jules Winnfield'];
+
 function addMemberRow(){
   if(memberCount >= CONFIG.memberMax) return;
   memberCount++;
@@ -271,7 +273,7 @@ function addMemberRow(){
   const row = document.createElement('div');
   row.className = 'member-row';
   row.innerHTML = `
-    <input type="text" class="mName" placeholder="Member ${idx} name">
+    <input type="text" class="mName" placeholder="${memberNames[idx-1] || 'Member ' + idx + ' name'}">
     <button type="button" class="icon-btn" title="Remove member">✕</button>
   `;
   row.querySelector('.icon-btn').addEventListener('click', () => {

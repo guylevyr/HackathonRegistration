@@ -66,6 +66,7 @@
   .field{margin-bottom:20px;}
   .field label{display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px;}
   .field .hint{font-size:12px; color:var(--muted); margin-top:5px;}
+  p.hint{font-size:13px; color:var(--muted);}
   .field .err{font-size:12px; color:var(--red); margin-top:5px; display:none;}
   .field.invalid input, .field.invalid textarea{border-color:var(--red);}
   .field.invalid .err{display:block;}
@@ -166,7 +167,6 @@
 
 <header class="wrap">
   <h1>Register your team</h1>
-  <p>Fill in your team details and idea below.</p>
 </header>
 
 <div class="wrap">
@@ -192,7 +192,8 @@
         <div class="err">Enter a valid 10-digit phone number.</div>
       </div>
 
-      <div class="section-title">Team members (5–6)</div>
+      <div class="section-title">Team members</div>
+      <p class="hint" style="margin:-8px 0 14px;">Add 5 members — your team will total 6 people, including you as leader.</p>
       <div id="membersWrap"></div>
       <button type="button" class="add-btn" id="addMemberBtn">+ Add member</button>
       <div class="roster-msg" id="rosterMsg"></div>
@@ -222,7 +223,6 @@
     <p id="successTeamName"></p>
     <p class="id" id="successId"></p>
     <p>Save this ID as your registration reference.</p>
-    <button class="btn btn-primary" id="registerAnother" style="width:auto; padding:11px 20px;">Register another team</button>
   </div>
 
   <footer>
@@ -243,7 +243,7 @@
 <script>
 const CONFIG = {
   memberMin: 5,
-  memberMax: 6
+  memberMax: 5
 };
 
 /* ---- Firebase setup ----
@@ -386,17 +386,6 @@ form.addEventListener('submit', async (e) => {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Register team';
   }
-});
-
-document.getElementById('registerAnother').addEventListener('click', () => {
-  form.reset();
-  document.querySelectorAll('.field.invalid').forEach(f => f.classList.remove('invalid'));
-  membersWrap.innerHTML = '';
-  memberCount = 0;
-  for(let i=0;i<CONFIG.memberMin;i++) addMemberRow();
-  document.getElementById('successCard').style.display = 'none';
-  document.getElementById('formCard').style.display = 'block';
-  window.scrollTo({top:0, behavior:'smooth'});
 });
 
 /* ---- organizer-only view, protected by Firebase sign-in ---- */
